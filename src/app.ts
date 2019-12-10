@@ -1,12 +1,31 @@
 import express from "express"
 import { FC } from "./config"
 import { IMinedBlock, INetwork, IPool, IWorker, MongoServer} from "./mongoServer"
-import { log4js } from "./utils"
+import { getLogger } from "./utils"
 
-const logger = log4js.getLoger(__filename)
+const logger = getLogger(__filename)
 
 const app = express()
 const mongoServer = new MongoServer()
+
+function decimalPlacesString(n: number, places: number) {
+    const power = Math.pow(10, places)
+    return (Math.round(n * power) / power).toLocaleString()
+}
+
+function hashrateFormatter(hashrate: number) {
+    let hashrateStr: string
+    if (hashrate > 20 * 1000 * 1000 * 1000) {
+        hashrateStr = `${decimalPlacesString(hashrate / (1000 * 1000 * 1000), 2)} GH/s`
+    } else if (hashrate > 20 * 1000 * 1000) {
+        hashrateStr = `${decimalPlacesString(hashrate / (1000 * 1000), 2)} MH/s`
+    } else if (hashrate > 20 * 1000) {
+        hashrateStr = `${decimalPlacesString(hashrate / 1000, 2)} KH/s`
+    } else {
+        hashrateStr = `${decimalPlacesString(hashrate, 2)} H/s`
+    }
+    return hashrateStr
+}
 
 app.get("/getPool", async (req, res) => {
     const pool: IPool = await mongoServer.getPool()
@@ -14,8 +33,8 @@ app.get("/getPool", async (req, res) => {
     const ret = {
         diff: FC.POOL_DIFF,
         fee: FC.POOL_DIFF,
-        hashrate: pool.hashrate,
-        networkHashrate: network.hashrate,
+        hashrate: pool === undefined ? "0" : hashrateFormatter(pool.hashrate),
+        networkHashrate: network === undefined ? "0" : hashrateFormatter(network.hashrate),
         reward: FC.BLOCK_REWARD,
     }
     res.json(ret)
@@ -33,6 +52,11 @@ app.get("/getMinedBlockHistory", async (req, res) => {
 
 app.get("/getWorkers", async (req, res) => {
     const workers: IWorker[] = await mongoServer.getWorkers()
+    res.json(workers)
+})
+
+app.get("/findWorker/:address", async (req, res) => {
+    const workers: IWorker[] = await mongoServer.findWorker(req.params.address)
     res.json(workers)
 })
 

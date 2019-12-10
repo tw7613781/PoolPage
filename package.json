@@ -4,12 +4,7 @@
   "description": "a spa for pool.hycon.io",
   "main": "app.ts",
   "scripts": {
-    "build-ts": "./node_modules/.bin/tsc",
-    "start": "npm run serve",
-    "serve": "node dist/server.js",
-    "watch-node": "./node_modules/.bin/nodemon dist/server.js",
-    "watch-ts": "./node_modules/.bin/tsc -w",
-    "tslint": "./node_modules/.bin/tslint -c ./tslint.json 'src/**/*.ts'"
+    "start": "./node_modules/.bin/ts-node src/app.ts"
   },
   "repository": {
     "type": "git",

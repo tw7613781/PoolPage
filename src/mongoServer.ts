@@ -1,8 +1,8 @@
 import { Db, MongoClient } from "mongodb"
 import { FC } from "./config"
-import { log4js } from "./utils"
+import { getLogger } from "./utils"
 
-const logger = log4js.getLogger(__filename)
+const logger = getLogger(__filename)
 
 export interface IWorker {
     _id: string
@@ -49,14 +49,10 @@ export class MongoServer {
         this.client = await MongoClient.connect(this.url, { useUnifiedTopology: true })
         this.db = this.client.db(this.dbName)
     }
-    public async findWorker(id: string): Promise<IWorker> {
+    public async findWorker(address: string): Promise<IWorker[]> {
         const collection = this.db.collection(FC.MONGO_WORKERS)
-        const rows = await collection.find({ id }).limit(1).toArray()
-        if (rows.length === 1) {
-            return rows[0]
-        } else {
-            return undefined
-        }
+        const rows = await collection.find({ address }).toArray()
+        return rows
     }
     public async getWorkers(): Promise<IWorker[]> {
         const collection = this.db.collection(FC.MONGO_WORKERS)
@@ -65,12 +61,12 @@ export class MongoServer {
     }
     public async getMinedBlocks(): Promise<IMinedBlock[]> {
         const collection = this.db.collection(FC.MONGO_MINED_BLOCKS)
-        const rows = await collection.find().toArray()
+        const rows = await collection.find().sort({timestamp: -1}).toArray()
         return rows
     }
     public async getMinedBlockHistory(): Promise<IMinedBlock[]> {
         const collection = this.db.collection(FC.MONGO_MINED_BLOCKS_HISTORY)
-        const rows = await collection.find().toArray()
+        const rows = await collection.find().sort({timestamp: -1}).toArray()
         return rows
     }
     public async getPool(): Promise<IPool> {

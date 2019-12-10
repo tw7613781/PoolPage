@@ -1,0 +1,44 @@
+{
+  "name": "spa",
+  "version": "1.0.0",
+  "description": "a spa for pool.hycon.io",
+  "main": "app.ts",
+  "scripts": {
+    "build-ts": "./node_modules/.bin/tsc",
+    "start": "npm run serve",
+    "serve": "node dist/server.js",
+    "watch-node": "./node_modules/.bin/nodemon dist/server.js",
+    "watch-ts": "./node_modules/.bin/tsc -w",
+    "tslint": "./node_modules/.bin/tslint -c ./tslint.json 'src/**/*.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tw7613781/PoolPage.git"
+  },
+  "keywords": [
+    "spa",
+    "vue.js",
+    "mongodb",
+    "express"
+  ],
+  "author": "Max Tang",
+  "license": "Apache License 2.0",
+  "bugs": {
+    "url": "https://github.com/tw7613781/PoolPage/issues"
+  },
+  "homepage": "https://github.com/tw7613781/PoolPage#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.4",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.1",
+    "@types/mongodb": "^3.3.11",
+    "express": "^4.17.1",
+    "log4js": "^6.1.0",
+    "mongodb": "^3.3.5",
+    "request": "^2.88.0"
+  }
+}

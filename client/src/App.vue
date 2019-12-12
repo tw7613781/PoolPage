@@ -1,17 +1,27 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
+    <hr />
+    <Pool />
+    <hr />
     <Worker />
+    <hr />
+    <MinedBlocks />
+
   </div>
 </template>
 
 <script>
 import Worker from './components/Worker.vue'
+import MinedBlocks from './components/MinedBlocks.vue'
+import Pool from './components/Pool.vue'
 
 export default {
   name: 'app',
   components: {
-    Worker
+    Worker,
+    MinedBlocks,
+    Pool
   }
 }
 </script>

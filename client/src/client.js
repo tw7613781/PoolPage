@@ -3,8 +3,8 @@ const request = require('request')
 const host = "http://localhost:3000/"
 
 export class Pool {
-    static getWorkers(addr){
-        const path = `findWorker/{addr}`
+    static findWorkers(addr){
+        const path = `findWorker/${addr}`
         return new Promise( (resolve, reject) => {
             request (host+path, (err, res, data) => {
                 if (err) {

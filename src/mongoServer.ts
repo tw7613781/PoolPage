@@ -1,17 +1,16 @@
 import { Db, MongoClient } from "mongodb"
 import { FC } from "./config"
-import { getLogger } from "./utils"
+import { getLogger, hashrateFormatter, timestampToLocalTimeString } from "./utils"
 
 const logger = getLogger(__filename)
 
 export interface IWorker {
     _id: string
-    socket: any
     address: string
     shares: number
     ip: string
-    tick: number
-    hashrate: number
+    tick: string
+    hashrate: string
 }
 
 export interface IMinedBlock {
@@ -52,11 +51,14 @@ export class MongoServer {
     public async findWorker(address: string): Promise<IWorker[]> {
         const collection = this.db.collection(FC.MONGO_WORKERS)
         const rows = await collection.find({ address }).toArray()
-        return rows
-    }
-    public async getWorkers(): Promise<IWorker[]> {
-        const collection = this.db.collection(FC.MONGO_WORKERS)
-        const rows = await collection.find().toArray()
+        if (rows.length === 0 ) {
+            return []
+        } else {
+            for (const row of rows) {
+                row.hashrate = hashrateFormatter(row.hashrate)
+                row.tick = timestampToLocalTimeString(row.tick)
+            }
+        }
         return rows
     }
     public async getMinedBlocks(): Promise<IMinedBlock[]> {

@@ -1,4 +1,5 @@
 import { configure, getLogger} from "log4js"
+import * as moment from "moment"
 
 configure({
     appenders: {
@@ -37,9 +38,28 @@ function hashrateFormatter(hashrate: number) {
     return hashrateStr
 }
 
-function timestampToLocalTimeString(tick: number) {
-    const date = new Date(tick * 1000)
-    return date.toLocaleDateString()
+function timestampToLocalTimeString(tick: number): string {
+    const date = new Date(tick)
+    return date.toLocaleString()
 }
 
-export { getLogger, decimalPlacesString, hashrateFormatter, timestampToLocalTimeString }
+function elapsedTime(tick: number): string {
+    const elapsed = ( Date.now() - tick )
+    const elapsedMoment =  moment.duration(elapsed, "milliseconds")
+    const days = elapsedMoment.days()
+    const hours = elapsedMoment.hours()
+    const minutes = elapsedMoment.minutes()
+    const seconds = elapsedMoment.seconds()
+    if (days !== 0) {
+        return `${days.toString()} days, ${hours.toString()}:${minutes.toString()}:${seconds.toString()}`
+    }
+    if (hours !== 0) {
+        return `${hours.toString()}:${minutes.toString()}:${seconds.toString()}`
+    }
+    if (minutes !== 0) {
+        return `${minutes.toString()}:${seconds.toString()}`
+    }
+    return `${seconds.toString()}`
+}
+
+export { getLogger, decimalPlacesString, elapsedTime, hashrateFormatter, timestampToLocalTimeString }

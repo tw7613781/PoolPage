@@ -47,4 +47,15 @@ export class Pool {
             })
         })
     }
+    static getBulletin(){
+        const path = "getBulletin"
+        return new Promise( (resolve, reject) => {
+            request (host+path, (err, res, data) => {
+                if (err) {
+                    return reject(err)
+                }
+                resolve(JSON.parse(data))
+            })
+        })
+    }
 }

@@ -1,6 +1,6 @@
 import express from "express"
 import { FC } from "./config"
-import { IMinedBlock, INetwork, IPool, IWorker, MongoServer} from "./mongoServer"
+import { IBulletin, IMinedBlock, INetwork, IPool, IWorker, MongoServer} from "./mongoServer"
 import { getLogger, hashrateFormatter } from "./utils"
 
 const logger = getLogger(__filename)
@@ -18,7 +18,7 @@ app.get("/getPool", async (req, res) => {
     const network: INetwork = await mongoServer.getNetwork()
     const ret = {
         diff: FC.POOL_DIFF,
-        fee: FC.POOL_DIFF,
+        fee: FC.POOL_FEE,
         hashrate: pool === undefined ? "0 H/s" : hashrateFormatter(pool.hashrate),
         networkHashrate: network === undefined ? "0 H/s" : hashrateFormatter(network.hashrate),
         reward: FC.BLOCK_REWARD,
@@ -34,6 +34,11 @@ app.get("/getMinedBlocks", async (req, res) => {
 app.get("/getMinedBlockHistory", async (req, res) => {
     const blocks: IMinedBlock[] = await mongoServer.getMinedBlockHistory()
     res.json(blocks)
+})
+
+app.get("/getBulletin", async (req, res) => {
+    const bulletin: IBulletin = await mongoServer.getBulletin()
+    res.json(bulletin)
 })
 
 app.get("/findWorker/:address", async (req, res) => {

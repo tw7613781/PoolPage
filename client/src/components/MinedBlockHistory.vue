@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-        <h2>Mined Blocks Detail</h2>
+        <h2>Mined Block History: Latest 50 Blocks</h2>
         <p class="error" v-if="error!=null">{{error}}</p>
-        <table class="container-blocks" v-if="blocks.length!=0">
+        <table class="container-history" v-if="blocks.length!=0">
             <thead>
                 <tr>
                     <th v-for="header in headers" :key="header.value">
@@ -54,19 +54,19 @@ export default {
     created: async function () {
         try {
             setImmediate(async ()=> {
-                await this.getMinedBlocks()
+                await this.getBlockHistory()
             })
             this.timer = setInterval( async ()=> {
-                await this.getMinedBlocks()
-            }, FC.BLOCKS_POOLING_INTERVAL)
+                await this.getBlockHistory()
+            }, FC.BLOCK_HISTORY_POOLING_INTERVAL)
         } catch (err) {
             this.errorHandle(err)
         }
     },
     methods:{
-        getMinedBlocks: async function(){
+        getBlockHistory: async function(){
             try {
-                this.blocks = await Pool.getMinedBlocks()
+                this.blocks = await Pool.getMinedBlockHistory()
                 this.error = null
             } catch (err) {
                 this.errorHandle(err)

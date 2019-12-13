@@ -7,6 +7,7 @@ export const FC = {
     TEST_BLOCK_DIFF: Number("1e-5"),
 
     // MongoDB
+    MONGO_BULLETIN: "Bulletin",
     MONGO_DB: "MiningPool",
     MONGO_MINED_BLOCKS: "MinedBlocks",
     MONGO_MINED_BLOCKS_HISTORY: "MinedBlocksHistory",
@@ -17,5 +18,5 @@ export const FC = {
 
     // Bannker
     BLOCK_REWARD: 12,
-    POOL_FEE: 0,
+    POOL_FEE: 0.005,
 }

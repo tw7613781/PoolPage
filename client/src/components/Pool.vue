@@ -1,10 +1,10 @@
 <template>
-    <div class="pool">
-        <h1>Hycon Mining Pool</h1>
-        <p class="error" v-if="error">{{error}}</p>
-        <div class="poolInfo" v-if="pool">
+    <div class="container">
+        <h2>Pool Basic Info</h2>
+        <p class="error" v-if="error!=null">{{error}}</p>
+        <div class="container-pool" v-if="pool!=null">
             <p>Pool Difficulty: {{pool.diff.toExponential()}}</p>
-            <p>Pool fee: {{pool.fee}} HYC and current network reward: {{pool.reward}} HYC</p>
+            <p>Pool fee: {{pool.fee * 100}}% per Block and current network reward: {{pool.reward}} HYC per Block</p>
             <p>Pool hashrate: {{pool.hashrate}} and current network hashrate: {{pool.networkHashrate}}</p>
         </div>
     </div>
@@ -12,12 +12,13 @@
 
 <script>
 import { Pool } from "../client.js"
+import { FC } from "../config.js"
 export default {
     name: 'Pool',
     data() {
         return {
             pool: null,
-            error: "",
+            error: null,
             timer: null,
         }
     },
@@ -28,27 +29,23 @@ export default {
             })
             this.timer = setInterval( async ()=> {
                 await this.getPool()
-            }, 1000 * 60)
+            }, FC.POOL_POOLING_INTERVAL)
         } catch (err) {
-            this.error = err
+            this.errorHandle(err)
         }
     },
     methods:{
         getPool: async function(){
             try {
                 this.pool = await Pool.getPool()
+                this.error = null
             } catch (err) {
-                this.error = err
+                this.errorHandle(err)
             }
-            
-        }
-    },
-    watch: {
-        error: function() {
-            if (this.error != "") {
-                clearInterval(this.timer)
-                return 
-            }
+        },
+        errorHandle: function(err) {
+            this.error = err
+            this.pool = null
         }
     }
 }

@@ -1,27 +1,30 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <hr />
+    <h1>Welcome to Hycon Mining Pool</h1>
+    <Bulletin />
     <Pool />
-    <hr />
     <Worker />
-    <hr />
     <MinedBlocks />
-
+    <MinedBlockHistory />
   </div>
 </template>
 
 <script>
+import Bulletin from './components/Bulletin.vue'
 import Worker from './components/Worker.vue'
 import MinedBlocks from './components/MinedBlocks.vue'
 import Pool from './components/Pool.vue'
+import MinedBlockHistory from './components/MinedBlockHistory.vue'
 
 export default {
   name: 'app',
   components: {
+    Bulletin,
     Worker,
     MinedBlocks,
-    Pool
+    Pool,
+    MinedBlockHistory
   }
 }
 </script>

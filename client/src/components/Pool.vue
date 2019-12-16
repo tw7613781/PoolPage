@@ -53,5 +53,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    div.container {
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        background-color: #f0f7fb;
+        border: solid 1px #3498db;
+        border-radius: 6px;
+        line-height: 18px;
+        overflow: hidden;
+        padding: 12px;
+    }
 </style>

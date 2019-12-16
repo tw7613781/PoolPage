@@ -48,22 +48,24 @@ export default {
             headers: ["age", "id", "HashRate", "Shares", "Address", "IP"],
             workers: [],
             error: null,
-            address: null,
+            address: "",
             timer: null,
         }
     },
     methods:{
         findWorker: function(){
             try {
-                if (this.workExist() === true) {
-                    setImmediate(async ()=> {
-                        await this.getWorkers()
-                    })
-                    this.timer = setInterval( async ()=> {
-                        await this.getWorkers()
-                    }, FC.WORKER_POOLING_INTERVAL)
-                } else {
-                    this.error = "Not Found"
+                if (this.address.length > 0) {
+                    if (this.workExist() === true) {
+                        setImmediate(async ()=> {
+                            await this.getWorkers()
+                        })
+                        this.timer = setInterval( async ()=> {
+                            await this.getWorkers()
+                        }, FC.WORKER_POOLING_INTERVAL)
+                    } else {
+                        this.error = "Not Found"
+                    }
                 }
             } catch (err) {
                 this.errorHandle(err)
@@ -92,7 +94,7 @@ export default {
     },
     watch: {
         address: function() {
-            if (this.address === null) {
+            if (this.address === "") {
                 this.error = null
                 this.worker= []
                 clearInterval(this.timer)
@@ -105,5 +107,66 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    input {
+        display: inline-block;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        padding: 10px 20px;
+        border: 1px solid #b7b7b7;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        color: rgba(0,142,198,1);
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        background: rgba(252,252,252,1);
+        -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) inset;
+        box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) inset;
+        text-shadow: 1px 1px 0 rgba(255,255,255,0.66) ;
+        -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+        -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+        -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+        transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    }
+    button {
+        display: inline-block;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        cursor: pointer;
+        padding: 10px 20px;
+        border: 1px solid #018dc4;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        color: rgba(255,255,255,0.9);
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        background: #0199d9;
+        -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+        box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+        text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
+        -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+        -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+        -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+        transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    }
+    table {
+        border: solid 1px #f0f7fb;
+        border-collapse: collapse;
+        border-spacing: 0;
+        margin: 0 auto;
+    }
+    table thead th {
+        background-color: #f0f7fb;
+        border: solid 1px #f0f7fb;
+        color: #336B6B;
+        padding: 10px;
+        text-shadow: 1px 1px 1px #fff;
+    }
+    table tbody td {
+        color: #333;
+        padding: 10px;
+        font-size: 13px;
+        text-shadow: 1px 1px 1px #fff;
+    }
 </style>

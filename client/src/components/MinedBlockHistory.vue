@@ -82,5 +82,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    table {
+        border: solid 1px #f0f7fb;
+        border-collapse: collapse;
+        border-spacing: 0;
+        margin: 0 auto;
+    }
+    table thead th {
+        background-color: #f0f7fb;
+        border: solid 1px #f0f7fb;
+        color: #336B6B;
+        padding: 10px;
+        text-shadow: 1px 1px 1px #fff;
+    }
+    table tbody td {
+        color: #333;
+        padding: 10px;
+        font-size: 13px;
+        text-shadow: 1px 1px 1px #fff;
+    }
 </style>

@@ -2,7 +2,6 @@
     <div class="container">
         <h2>Check the worker details</h2>
         <input type="text" id="addr" v-model="address" placeholder="Input the Hycon address associated with worker..." size="50">
-        <button v-on:click="findWorker">Go</button>
         <p class="error" v-if="error!=null">{{error}}</p>
         <table class="displayWorkers" v-if="workers.length!=0">
             <thead>
@@ -53,24 +52,6 @@ export default {
         }
     },
     methods:{
-        findWorker: function(){
-            try {
-                if (this.address.length > 0) {
-                    if (this.workExist() === true) {
-                        setImmediate(async ()=> {
-                            await this.getWorkers()
-                        })
-                        this.timer = setInterval( async ()=> {
-                            await this.getWorkers()
-                        }, FC.WORKER_POOLING_INTERVAL)
-                    } else {
-                        this.error = "Not Found"
-                    }
-                }
-            } catch (err) {
-                this.errorHandle(err)
-            }
-        },
         workExist: async function() {
             try {
                 const ret = await Pool.findWorkers(this.address)
@@ -93,12 +74,30 @@ export default {
         }
     },
     watch: {
-        address: function() {
-            if (this.address === "") {
-                this.error = null
-                this.worker= []
-                clearInterval(this.timer)
-                return 
+        address: async function() {
+            try {
+                if (this.address.length > 0) {
+                    if (await this.workExist() === true) {
+                        setImmediate(async ()=> {
+                            await this.getWorkers()
+                        })
+                        if (this.timer !== null) {
+                            clearInterval(this.timer)
+                        } else {
+                            this.timer = setInterval( async ()=> {
+                                await this.getWorkers()
+                            }, FC.WORKER_POOLING_INTERVAL)
+                        }
+                    } else {
+                        this.errorHandle("Not Found")
+                        clearInterval(this.timer)
+                        this.timer = null
+                    }
+                } else {
+                    this.errorHandle(null)
+                }
+            } catch (err) {
+                this.errorHandle(err)
             }
         }
     }
@@ -127,28 +126,6 @@ export default {
         -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
         -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
         transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
-    }
-    button {
-        display: inline-block;
-        -webkit-box-sizing: content-box;
-        -moz-box-sizing: content-box;
-        box-sizing: content-box;
-        cursor: pointer;
-        padding: 10px 20px;
-        border: 1px solid #018dc4;
-        -webkit-border-radius: 3px;
-        border-radius: 3px;
-        color: rgba(255,255,255,0.9);
-        -o-text-overflow: clip;
-        text-overflow: clip;
-        background: #0199d9;
-        -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
-        box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
-        text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
-        -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-        -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-        -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-        transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
     }
     table {
         border: solid 1px #f0f7fb;

@@ -25,17 +25,20 @@ export interface IMinedBlock {
 }
 
 export interface IPool {
-    hashrate: number,
+    hashrate: number
     tick: string
+    diff: number
+    reward: number
+    fee: number
 }
 
 export interface INetwork {
-    hashrate: number,
+    hashrate: number
     tick: string
 }
 
 export interface IBulletin {
-    msg: string,
+    msg: string
     tick: string
 }
 
@@ -100,7 +103,7 @@ export class MongoServer {
         }
     }
     public async getNetwork(): Promise<INetwork> {
-        const collection = this.db.collection(FC.MONGO_MINED_BLOCKS)
+        const collection = this.db.collection(FC.MONGO_NETWORK)
         const rows = await collection.find().toArray()
         if (rows.length === 1) {
             return rows[0]

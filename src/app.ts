@@ -31,7 +31,7 @@ app.get("/getPool", async (req, res) => {
             fee: pool.fee,
             hashrate: hashrateFormatter(pool.hashrate),
             networkHashrate: hashrateFormatter(network.hashrate),
-            reward: pool.reward,
+            reward: pool.reward / 1000000000,
         }
         res.json(ret)
     }

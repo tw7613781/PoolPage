@@ -101,4 +101,16 @@ export default {
         font-size: 13px;
         text-shadow: 1px 1px 1px #fff;
     }
+    a:link {
+        color: rgba(0,142,198,1);
+    }
+    a:visited {
+        color: blue;
+    }
+    a:hover {
+        color: red;
+    }
+    a:active {
+        color: green;
+    }
 </style>

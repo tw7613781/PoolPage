@@ -1,6 +1,7 @@
 const request = require('request')
-
-const host = "http://localhost:3000/"
+const FC = require('config')
+ 
+const host = FC.API_SERVER
 
 export class Pool {
     static findWorkers(addr){

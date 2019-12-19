@@ -5,7 +5,7 @@ export const FC = {
     "BLOCK_HISTORY_POOLING_INTERVAL" :  1000 * 60,
 
     "HYCON_EXPLORER": "https://explorer.hycon.io/",
-
-    "API_SERVER": "http://15.164.163.178"
+    
+    "API_SERVER": "http://15.164.163.178/",
 }
 

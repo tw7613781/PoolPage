@@ -1,6 +1,6 @@
+import { FC } from "./config"
 const request = require('request')
-const FC = require('./config')
- 
+
 const host = FC.API_SERVER
 
 export class Pool {

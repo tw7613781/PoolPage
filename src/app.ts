@@ -62,4 +62,4 @@ app.get(/.*/, (req, res) => {
     res.sendFile(__dirname + "/public/index.html")
 })
 
-app.listen(3000, "localhost", () => logger.info("SPA for pool.hycon.io is running"))
+app.listen(3000, () => logger.info("SPA for pool.hycon.io is running"))

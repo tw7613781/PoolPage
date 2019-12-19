@@ -8,5 +8,5 @@ export const FC = {
     MONGO_NETWORK: "Network",
     MONGO_POOL: "Pool",
     MONGO_WORKERS: "Workers",
-    URL_MONGO_SERVICE: "mongodb://ip:port",
+    URL_MONGO_SERVICE: "mongodb://127.0.0.1:27017",
 }

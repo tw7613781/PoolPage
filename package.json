@@ -4,7 +4,8 @@
   "description": "a spa for pool.hycon.io",
   "main": "app.ts",
   "scripts": {
-    "start": "./node_modules/.bin/ts-node src/app.ts"
+    "start": "./node_modules/.bin/pm2 start dist/app.js",
+    "build": "./node_modules/.bin/tsc && cd client && ./node_modules/.bin/vue-cli-service build"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/tw7613781/PoolPage#readme",
   "devDependencies": {
     "nodemon": "^1.19.4",
+    "pm2": "^4.2.1",
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4"

@@ -83,11 +83,10 @@ export default {
                         })
                         if (this.timer !== null) {
                             clearInterval(this.timer)
-                        } else {
-                            this.timer = setInterval( async ()=> {
-                                await this.getWorkers()
-                            }, FC.WORKER_POOLING_INTERVAL)
-                        }
+                        } 
+                        this.timer = setInterval( async ()=> {
+                            await this.getWorkers()
+                        }, FC.WORKER_POOLING_INTERVAL)
                     } else {
                         this.errorHandle("Not Found")
                         clearInterval(this.timer)

@@ -44,4 +44,7 @@ export default {
         overflow: hidden;
         padding: 12px;
     }
+    ul {
+        text-align: left;
+    }
 </style>

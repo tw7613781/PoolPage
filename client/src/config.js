@@ -6,6 +6,6 @@ export const FC = {
 
     "HYCON_EXPLORER": "https://explorer.hycon.io/",
     
-    "API_SERVER": "http://15.164.163.178/",
+    "API_SERVER": "https://mining.hycon.io/",
 }
 

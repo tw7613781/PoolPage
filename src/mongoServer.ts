@@ -111,14 +111,16 @@ export class MongoServer {
             return undefined
         }
     }
-    public async getBulletin(): Promise<IBulletin> {
+    public async getBulletin(): Promise<IBulletin[]> {
         const collection = this.db.collection(FC.MONGO_BULLETIN)
         const rows = await collection.find().toArray()
-        if (rows.length === 1) {
-            rows[0].tick = timestampToLocalTimeString(rows[0].tick)
-            return rows[0]
+        if (rows.length === 0 ) {
+            return []
         } else {
-            return undefined
+            for (const row of rows) {
+                row.tick = timestampToLocalTimeString(row.tick)
+            }
         }
+        return rows
     }
 }

@@ -1,5 +1,4 @@
 import express from "express"
-import { FC } from "./config"
 import { IBulletin, IMinedBlock, INetwork, IPool, IWorker, MongoServer} from "./mongoServer"
 import { getLogger, hashrateFormatter } from "./utils"
 
@@ -48,8 +47,8 @@ app.get("/getMinedBlockHistory", async (req, res) => {
 })
 
 app.get("/getBulletin", async (req, res) => {
-    const bulletin: IBulletin = await mongoServer.getBulletin()
-    res.json(bulletin)
+    const bulletins: IBulletin[] = await mongoServer.getBulletin()
+    res.json(bulletins)
 })
 
 app.get("/findWorker/:address", async (req, res) => {

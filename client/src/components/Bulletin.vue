@@ -2,9 +2,12 @@
     <div class="container">
         <h2>Bulletin</h2>
         <p class="error" v-if="error!=null">{{error}}</p>
-        <div class="container-bulletin" v-if="msg">
-            <p>Published at: {{time}}</p>
-            <p>{{msg}}</p>
+        <div class="container-bulletin" v-if="bulletins.length!=0">
+            <ul>
+                <li v-for="bulletin in bulletins" :key="bulletin._id">
+                    {{bulletin.tick}}: {{bulletin.msg}}
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -15,16 +18,13 @@ export default {
     name: 'Bulletin',
     data() {
         return {
-            msg: null,
-            time: null,
+            bulletins: [],
             error: null,
         }
     },
     created: async function () {
         try {
-            const bulletin = await Pool.getBulletin()
-            this.msg = bulletin.msg
-            this.time = bulletin.tick
+            this.bulletins = await Pool.getBulletin()
         } catch (err) {
             this.error = err
         }

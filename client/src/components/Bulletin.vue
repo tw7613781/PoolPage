@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2>Bulletin</h2>
+        <h2>Pool Logs</h2>
         <p class="error" v-if="error!=null">{{error}}</p>
         <div class="container-bulletin" v-if="bulletins.length!=0">
             <ul>

@@ -16,12 +16,18 @@
                         {{block.timestamp}}
                     </td>
                     <td>
-                        <a :href="hyconExplorerBlock + block._id" class="href" target="_blank">
+                        <a :href="hyconExplorerBlock + block._id" class="href" target="_blank" v-if="block.status === 'MainBlock'">
+                            {{block._id}}
+                        </a>
+                        <a :href="hyconExplorerUncle + block._id" class="href" target="_blank" v-if="block.status === 'UncleBlock'">
+                            {{block._id}}
+                        </a>
+                        <a :href="" class="href" target="_blank" v-if="block.status === 'BTC'">
                             {{block._id}}
                         </a>
                     </td>
                     <td>
-                        {{block.mainchain}}
+                        {{block.status}}
                     </td>
                     <td>
                         {{block.paied}}
@@ -44,11 +50,12 @@ export default {
     name: 'MinedBlocks',
     data() {
         return {
-            headers: ["age", "hash", "inMainChain", "paied", "prevHash"],
+            headers: ["age", "hash", "status", "paied", "prevHash"],
             blocks: [],
             error: null,
             timer: null,
-            hyconExplorerBlock: FC.HYCON_EXPLORER + "block/"
+            hyconExplorerBlock: FC.HYCON_EXPLORER + "block/",
+            hyconExplorerUncle: FC.HYCON_EXPLORER + "uncle/"
         }
     },
     created: async function () {

@@ -26,11 +26,11 @@ function decimalPlacesString(n: number, places: number) {
 
 function hashrateFormatter(hashrate: number) {
     let hashrateStr: string
-    if (hashrate > 20 * 1000 * 1000 * 1000) {
+    if (hashrate > 1000 * 1000 * 1000) {
         hashrateStr = `${decimalPlacesString(hashrate / (1000 * 1000 * 1000), 2)} GH/s`
-    } else if (hashrate > 20 * 1000 * 1000) {
+    } else if (hashrate > 1000 * 1000) {
         hashrateStr = `${decimalPlacesString(hashrate / (1000 * 1000), 2)} MH/s`
-    } else if (hashrate > 20 * 1000) {
+    } else if (hashrate > 1000) {
         hashrateStr = `${decimalPlacesString(hashrate / 1000, 2)} KH/s`
     } else {
         hashrateStr = `${decimalPlacesString(hashrate, 2)} H/s`

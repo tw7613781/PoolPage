@@ -15,7 +15,7 @@ export interface IWorker {
 
 export interface IMinedBlock {
     _id: string
-    mainchain: boolean
+    status: string
     prevHash: string
     timestamp: string
     addresses: string[]

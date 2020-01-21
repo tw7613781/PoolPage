@@ -2,11 +2,12 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <h1>Welcome to Hycon Mining Pool</h1>
-    <Bulletin />
+    <p><a href="https://medium.com/@tw7613781/hycon-mining-guidance-on-mining-hycon-io-84086847e4f6">Tutorial</a></p>
     <Pool />
     <Worker />
     <MinedBlocks />
     <MinedBlockHistory />
+    <Bulletin />
   </div>
 </template>
 

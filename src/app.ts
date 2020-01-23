@@ -14,26 +14,25 @@ app.all("/*", (req: express.Request, res: express.Response, next: express.NextFu
 
 app.get("/getPool", async (req, res) => {
     const pool: IPool = await mongoServer.getPool()
-    const network: INetwork = await mongoServer.getNetwork()
-    if (pool === undefined || network === undefined) {
-        const ret = {
-            diff: 0,
+    let network: INetwork = await mongoServer.getNetwork()
+    const poolHashrate = pool === undefined ? 0 : pool.hashrate
+    if (network ===undefined) {
+        network = {
             fee: 0,
-            hashrate: "0 H/s",
-            networkHashrate: "0 H/s",
+            hashrate: 0,
+            poolDiff: 1,
             reward: 0,
+            tick: "0",
         }
-        res.json(ret)
-    } else {
-        const ret = {
-            diff: network.poolDiff,
-            fee: network.fee,
-            hashrate: hashrateFormatter(pool.hashrate),
-            networkHashrate: hashrateFormatter(network.hashrate),
-            reward: network.reward / 1000000000,
-        }
-        res.json(ret)
     }
+    const ret = {
+        diff: network.poolDiff,
+        fee: network.fee,
+        hashrate: hashrateFormatter(poolHashrate),
+        networkHashrate: hashrateFormatter(network.hashrate),
+        reward: network.reward / 1000000000,
+    }
+    res.json(ret)
 })
 
 app.get("/getMinedBlocks", async (req, res) => {

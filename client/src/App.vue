@@ -2,7 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <h1>Welcome to Hycon Mining Pool</h1>
-    <p><a href="https://medium.com/@tw7613781/hycon-mining-guidance-on-mining-hycon-io-84086847e4f6">Tutorial</a></p>
+    <p><a href="https://medium.com/@tw7613781/hycon-mining-guidance-on-mining-hycon-io-84086847e4f6" target="_blank">Tutorial</a></p>
     <Pool />
     <Worker />
     <MinedBlocks />
@@ -38,5 +38,17 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+a:link {
+    color: rgba(0,142,198,1);
+}
+a:visited {
+    color: rgba(0,142,198,1);
+}
+a:hover {
+    color: red;
+}
+a:active {
+    color: green;
 }
 </style>

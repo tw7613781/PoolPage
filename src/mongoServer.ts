@@ -27,13 +27,13 @@ export interface IMinedBlock {
 export interface IPool {
     hashrate: number
     tick: string
-    diff: number
-    reward: number
-    fee: number
 }
 
 export interface INetwork {
     hashrate: number
+    poolDiff: number
+    reward: number
+    fee: number
     tick: string
 }
 
@@ -59,6 +59,19 @@ export class MongoServer {
     public async findWorker(address: string): Promise<IWorker[]> {
         const collection = this.db.collection(FC.MONGO_WORKERS)
         const rows = await collection.find({ address }).toArray()
+        if (rows.length === 0 ) {
+            return []
+        } else {
+            for (const row of rows) {
+                row.hashrate = hashrateFormatter(row.hashrate)
+                row.tick = elapsedTime(row.tick)
+            }
+        }
+        return rows
+    }
+    public async allWorkers(): Promise<IWorker[]> {
+        const collection = this.db.collection(FC.MONGO_WORKERS)
+        const rows = await collection.find().toArray()
         if (rows.length === 0 ) {
             return []
         } else {

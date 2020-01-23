@@ -15,6 +15,17 @@ export class Pool {
             })
         })
     }
+    static allWorkers(){
+        const path = `allWorkers`
+        return new Promise( (resolve, reject) => {
+            request (host+path, (err, res, data) => {
+                if (err) {
+                    return reject(err)
+                }
+                resolve(JSON.parse(data))
+            })
+        })
+    }
     static getPool(){
         const path = "getPool"
         return new Promise( (resolve, reject) => {

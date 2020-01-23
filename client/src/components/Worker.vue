@@ -17,7 +17,7 @@
                         {{worker.tick}}
                     </td>
                     <td>
-                        {{worker._id}}
+                        {{worker.name}}
                     </td>
                     <td>
                         {{worker.hashrate}}
@@ -44,7 +44,7 @@ export default {
     name: 'Worker',
     data() {
         return {
-            headers: ["age", "id", "HashRate", "Shares", "Address", "IP"],
+            headers: ["age", "name", "HashRate", "Shares", "Address", "IP"],
             workers: [],
             error: null,
             address: "",
@@ -68,6 +68,14 @@ export default {
                 this.errorHandle(err)
             }
         },
+        allWorkers: async function(){
+            try {
+                this.workers = await Pool.allWorkers()
+                this.error = null
+            } catch (err) {
+                this.errorHandle(err)
+            }
+        },
         errorHandle: function(err) {
             this.error = err
             this.workers = []
@@ -77,20 +85,32 @@ export default {
         address: async function() {
             try {
                 if (this.address.length > 0) {
-                    if (await this.workExist() === true) {
+                    if (this.address === "all"){
                         setImmediate(async ()=> {
-                            await this.getWorkers()
+                            await this.allWorkers()
                         })
                         if (this.timer !== null) {
                             clearInterval(this.timer)
                         } 
                         this.timer = setInterval( async ()=> {
-                            await this.getWorkers()
+                            await this.allWorkers()
                         }, FC.WORKER_POOLING_INTERVAL)
                     } else {
-                        this.errorHandle("Not Found")
-                        clearInterval(this.timer)
-                        this.timer = null
+                        if (await this.workExist() === true) {
+                            setImmediate(async ()=> {
+                                await this.getWorkers()
+                            })
+                            if (this.timer !== null) {
+                                clearInterval(this.timer)
+                            } 
+                            this.timer = setInterval( async ()=> {
+                                await this.getWorkers()
+                            }, FC.WORKER_POOLING_INTERVAL)
+                        } else {
+                            this.errorHandle("Not Found")
+                            clearInterval(this.timer)
+                            this.timer = null
+                        }
                     }
                 } else {
                     this.errorHandle(null)

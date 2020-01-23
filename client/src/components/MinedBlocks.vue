@@ -22,9 +22,9 @@
                         <a :href="hyconExplorerUncle + block._id" class="href" target="_blank" v-if="block.status === 'UncleBlock'">
                             {{block._id}}
                         </a>
-                        <a :href="" class="href" target="_blank" v-if="block.status === 'BTC'">
+                        <p v-if="block.status === 'TBC'">
                             {{block._id}}
-                        </a>
+                        </p>
                     </td>
                     <td>
                         {{block.status}}
@@ -112,7 +112,7 @@ export default {
         color: rgba(0,142,198,1);
     }
     a:visited {
-        color: blue;
+        color: rgba(0,142,198,1);
     }
     a:hover {
         color: red;

@@ -26,11 +26,11 @@ app.get("/getPool", async (req, res) => {
         res.json(ret)
     } else {
         const ret = {
-            diff: pool.diff,
-            fee: pool.fee,
+            diff: network.poolDiff,
+            fee: network.fee,
             hashrate: hashrateFormatter(pool.hashrate),
             networkHashrate: hashrateFormatter(network.hashrate),
-            reward: pool.reward / 1000000000,
+            reward: network.reward / 1000000000,
         }
         res.json(ret)
     }
@@ -53,6 +53,11 @@ app.get("/getBulletin", async (req, res) => {
 
 app.get("/findWorker/:address", async (req, res) => {
     const workers: IWorker[] = await mongoServer.findWorker(req.params.address)
+    res.json(workers)
+})
+
+app.get("/allWorkers", async (req, res) => {
+    const workers: IWorker[] = await mongoServer.allWorkers()
     res.json(workers)
 })
 

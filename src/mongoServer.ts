@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb"
 import { FC } from "./config"
-import { elapsedTime, getLogger, hashrateFormatter, timestampToLocalTimeString } from "./utils"
+import { getLogger } from "./utils"
 
 const logger = getLogger(__filename)
 
@@ -62,12 +62,8 @@ export class MongoServer {
         if (rows.length === 0 ) {
             return []
         } else {
-            for (const row of rows) {
-                row.hashrate = hashrateFormatter(row.hashrate)
-                row.tick = elapsedTime(row.tick)
-            }
+            return rows
         }
-        return rows
     }
     public async allWorkers(): Promise<IWorker[]> {
         const collection = this.db.collection(FC.MONGO_WORKERS)
@@ -75,12 +71,8 @@ export class MongoServer {
         if (rows.length === 0 ) {
             return []
         } else {
-            for (const row of rows) {
-                row.hashrate = hashrateFormatter(row.hashrate)
-                row.tick = elapsedTime(row.tick)
-            }
+            return rows
         }
-        return rows
     }
     public async getMinedBlocks(): Promise<IMinedBlock[]> {
         const collection = this.db.collection(FC.MONGO_MINED_BLOCKS)
@@ -88,11 +80,8 @@ export class MongoServer {
         if (rows.length === 0 ) {
             return []
         } else {
-            for (const row of rows) {
-                row.timestamp = elapsedTime(row.timestamp)
-            }
+            return rows
         }
-        return rows
     }
     public async getMinedBlockHistory(): Promise<IMinedBlock[]> {
         const collection = this.db.collection(FC.MONGO_MINED_BLOCKS_HISTORY)
@@ -100,11 +89,8 @@ export class MongoServer {
         if (rows.length === 0 ) {
             return []
         } else {
-            for (const row of rows) {
-                row.timestamp = elapsedTime(row.timestamp)
-            }
+            return rows
         }
-        return rows
     }
     public async getPool(): Promise<IPool> {
         const collection = this.db.collection(FC.MONGO_POOL)
@@ -130,10 +116,7 @@ export class MongoServer {
         if (rows.length === 0 ) {
             return []
         } else {
-            for (const row of rows) {
-                row.tick = timestampToLocalTimeString(row.tick)
-            }
+            return rows
         }
-        return rows
     }
 }

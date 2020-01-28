@@ -1,6 +1,6 @@
 import express from "express"
 import { IBulletin, IMinedBlock, INetwork, IPool, IWorker, MongoServer} from "./mongoServer"
-import { getLogger, hashrateFormatter } from "./utils"
+import { getLogger } from "./utils"
 
 const logger = getLogger(__filename)
 
@@ -16,7 +16,7 @@ app.get("/getPool", async (req, res) => {
     const pool: IPool = await mongoServer.getPool()
     let network: INetwork = await mongoServer.getNetwork()
     const poolHashrate = pool === undefined ? 0 : pool.hashrate
-    if (network ===undefined) {
+    if (network === undefined) {
         network = {
             fee: 0,
             hashrate: 0,
@@ -28,9 +28,9 @@ app.get("/getPool", async (req, res) => {
     const ret = {
         diff: network.poolDiff,
         fee: network.fee,
-        hashrate: hashrateFormatter(poolHashrate),
-        networkHashrate: hashrateFormatter(network.hashrate),
-        reward: network.reward / 1000000000,
+        hashrate: poolHashrate,
+        networkHashrate: network.hashrate,
+        reward: network.reward,
     }
     res.json(ret)
 })

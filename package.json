@@ -35,7 +35,7 @@
     "@types/mongodb": "^3.3.11",
     "express": "^4.17.1",
     "log4js": "^6.1.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "mongodb": "^3.3.5",
     "request": "^2.88.0"
   }
